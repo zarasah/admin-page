@@ -61,7 +61,6 @@ export default function UsersTable() {
         for (let i = 0; i < fields.length; i++) {
             newProduct[fields[i].name] = inputValues[i];
         }
-        console.log(newProduct);
 
         fetch('http://localhost:4000/admin/createproduct', {
             method: 'POST',

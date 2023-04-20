@@ -1,10 +1,17 @@
 import { useState, useEffect } from "react";
 import Table from "../components/Table";
+import Form from '../components/Form';
 
 export default function UsersTable() {
     const [data, setData] = useState([{}]);
-    const [inputValue, setInputValue] = useState('');
     const [showForm, setShowForm] = useState(false);
+
+    const fields = [
+        {
+            name: 'name',
+            type: 'text'
+        }
+    ]
 
     function deleteButtonClick(id) {
         fetch(`http://localhost:4000/admin/deletecategory?id=${id}`, {
@@ -37,21 +44,19 @@ export default function UsersTable() {
         setShowForm(true);
     }
 
-    function handleInputChange(event) {
-        setInputValue(event.target.value);
-    }
-
     function handleCancel() {
-        setInputValue('');
         setShowForm(false);
     }
 
-    function handleSubmit(event) {
+    function handleSubmit(event, inputValues) {
         event.preventDefault();
-        
+        const newCategory = {}
+        for (let i = 0; i < fields.length; i++) {
+            newCategory[fields[i].name] = inputValues[i];
+        }
         fetch('http://localhost:4000/admin/createcategory', {
             method: 'POST',
-            body: JSON.stringify({name: inputValue}),
+            body: JSON.stringify(newCategory),
             headers: {
                 'Authorization': JSON.parse(localStorage.user).jwt,
                 'Content-Type': 'application/json'
@@ -75,20 +80,7 @@ export default function UsersTable() {
             <button onClick = { handleAddBtnClick }>Add new Category</button>
             {
                 showForm && (
-                    <form onSubmit={ handleSubmit }>
-                        <label>
-                            Name:
-                            <input
-                            type = "text"
-                            name = "name"
-                            value = { inputValue }
-                            onChange = { handleInputChange }
-                            />
-                        </label>
-                        <br />
-                        <button type="submit">Save</button>
-                        <button type="button" onClick = { handleCancel }>Cancel</button>
-                    </form>
+                    <Form fields = {fields} handleSubmit = {handleSubmit} handleCancel = {handleCancel}/>
                 )
             }
             <Table data = {data} deleteButtonClick = { deleteButtonClick } />
