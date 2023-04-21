@@ -37,6 +37,26 @@ export default function UsersTable() {
         }
     ]
 
+    useEffect(() => {
+        fetch('http://localhost:4000/admin/categories', {
+            headers: {
+                "Authorization": JSON.parse(localStorage.user).jwt
+            }
+        })
+        .then(res => res.json())
+        .then(result => {
+            const newOptions = result.map(item => {
+                const newItem = {
+                    id: item.id, 
+                    name: item.name
+                }
+                return newItem;
+            })
+            setOptions(newOptions);
+        })
+        .catch(error => console.error(error))
+    }, [])
+
     function handleEditCancel() {
         setIsEdit(false);
     }
@@ -79,24 +99,25 @@ export default function UsersTable() {
     }
 
     function handleAddBtnClick() {
-        fetch('http://localhost:4000/admin/categories', {
-            headers: {
-                "Authorization": JSON.parse(localStorage.user).jwt
-            }
-        })
-        .then(res => res.json())
-        .then(result => {
-            const newOptions = result.map(item => {
-                const newItem = {
-                    id: item.id, 
-                    name: item.name
-                }
-                return newItem;
-            })
-            setOptions(newOptions);
-            setShowForm(true);
-        })
-        .catch(error => console.error(error))
+        setShowForm(true);
+        // fetch('http://localhost:4000/admin/categories', {
+        //     headers: {
+        //         "Authorization": JSON.parse(localStorage.user).jwt
+        //     }
+        // })
+        // .then(res => res.json())
+        // .then(result => {
+        //     const newOptions = result.map(item => {
+        //         const newItem = {
+        //             id: item.id, 
+        //             name: item.name
+        //         }
+        //         return newItem;
+        //     })
+        //     setOptions(newOptions);
+        //     setShowForm(true);
+        // })
+        // .catch(error => console.error(error))
     }
 
     function handleCancel() {
