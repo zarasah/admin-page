@@ -5,7 +5,10 @@ import Form from "../components/Form";
 export default function UsersTable() {
     const [data, setData] = useState([{}]);
     const [showForm, setShowForm] = useState(false);
-    const [options, setOptions] = useState([])
+    const [isEdit, setIsEdit] = useState(false);
+    const [options, setOptions] = useState([]);
+    const [values, setValues] = useState({});
+    const [id, setId] = useState('');
     const fields = [
         {
             name: 'name',
@@ -33,6 +36,47 @@ export default function UsersTable() {
             options
         }
     ]
+
+    function handleEditCancel() {
+        setIsEdit(false);
+    }
+
+    function handleEditSubmit(event, inputValues) {
+        event.preventDefault();
+        const updateProduct = {};
+
+        for (let i = 0; i < fields.length; i++) {
+            updateProduct[fields[i].name] = inputValues[i];
+        }
+
+        fetch(`http://localhost:4000/admin/updateproduct/?id=${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(updateProduct),
+            headers: {
+                'Authorization': JSON.parse(localStorage.user).jwt,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res => {
+            if (!res.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return res.json();
+        })
+        .then(result => {
+            const oldData = [...data];
+            const updatedData = oldData.map((item) => {
+                if (item.id === id) {
+                    return result.data;
+                }
+                return item;
+            })
+            setData(updatedData);
+            setIsEdit(false);
+        })
+        .catch(error => console.error(error))
+        
+    }
 
     function handleAddBtnClick() {
         fetch('http://localhost:4000/admin/categories', {
@@ -87,6 +131,19 @@ export default function UsersTable() {
         .catch(error => console.error(error))
     }
 
+    function editButtonClick(id) {
+        setId(id);
+        const editData = data.filter(item => item.id === id)[0];
+        let value = [];
+       
+        for (let i = 0; i < fields.length; i++) {
+            const index = fields[i].name
+            value.push(editData[index]);
+        }
+        setValues(value);
+        setIsEdit(true);
+    }
+
     function deleteButtonClick(id) {
         fetch(`http://localhost:4000/admin/deleteproduct?id=${id}`, {
             method: 'DELETE',
@@ -122,7 +179,12 @@ export default function UsersTable() {
                     <Form handleSubmit = {handleSubmit} handleCancel = {handleCancel} fields={fields}/>
                 )
             }
-            <Table data = {data} deleteButtonClick = {deleteButtonClick} />
+            {
+                isEdit && (
+                    <Form fields = {fields} handleSubmit = {handleEditSubmit} handleCancel = {handleEditCancel} values = {values}/>
+                )
+            }
+            <Table data = {data} deleteButtonClick = {deleteButtonClick} editButtonClick = {editButtonClick} />
         </>
         
     )
