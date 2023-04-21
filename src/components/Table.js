@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-export default function Table({data, deleteButtonClick}) { 
+export default function Table({data, deleteButtonClick, editButtonClick}) { 
     const columns = Object.keys(data[0]);
     columns.push('Edit', 'Delete');
     const newData = [];
@@ -31,7 +31,7 @@ export default function Table({data, deleteButtonClick}) {
                                     return <td key = {uuidv4()}>{item}</td>
                                 })    
                             }
-                            <td>&#9998;</td>
+                            <td onClick={() => editButtonClick(id)}>&#9998;</td>
                             <td onClick = {() => deleteButtonClick(id)}>&#128465;</td>
                         </tr>)
                     })

@@ -24,6 +24,10 @@ export default function UsersTable() {
             type: 'text'
         },
         {
+            name: 'img',
+            type: 'text'
+        },
+        {
             name: 'categoryId',
             type: 'select',
             options

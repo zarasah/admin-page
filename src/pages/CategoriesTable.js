@@ -4,7 +4,10 @@ import Form from '../components/Form';
 
 export default function UsersTable() {
     const [data, setData] = useState([{}]);
+    const [values, setValues] = useState({});
+    const [id, setId] = useState('');
     const [showForm, setShowForm] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
 
     const fields = [
         {
@@ -29,6 +32,19 @@ export default function UsersTable() {
         .catch((error) => console.error(error))
     }
 
+    function editButtonClick(id) {
+        setId(id);
+        const editData = data.filter(item => item.id === id)[0];
+        let value = [];
+       
+        for (let i = 0; i < fields.length; i++) {
+            const index = fields[i].name
+            value.push(editData[index]);
+        }
+        setValues(value);
+        setIsEdit(true);
+    }
+
     useEffect(() => {
         fetch('http://localhost:4000/admin/categories', {
             headers: {
@@ -48,12 +64,55 @@ export default function UsersTable() {
         setShowForm(false);
     }
 
+    function handleEditCancel() {
+        setIsEdit(false);
+    }
+
+    function handleEditSubmit(event, inputValues) {
+        event.preventDefault();
+        const updateCategory = {};
+
+        for (let i = 0; i < fields.length; i++) {
+            updateCategory[fields[i].name] = inputValues[i];
+        }
+
+        fetch(`http://localhost:4000/admin/updatecategory/?id=${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(updateCategory),
+            headers: {
+                'Authorization': JSON.parse(localStorage.user).jwt,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res => {
+            if (!res.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return res.json();
+        })
+        .then(result => {
+            const oldData = [...data];
+            const updatedData = oldData.map((item) => {
+                if (item.id === id) {
+                    return result.data;
+                }
+                return item;
+            })
+            setData(updatedData);
+            setIsEdit(false);
+        })
+        .catch(error => console.error(error))
+        
+    }
+
     function handleSubmit(event, inputValues) {
         event.preventDefault();
-        const newCategory = {}
+        const newCategory = {};
+
         for (let i = 0; i < fields.length; i++) {
             newCategory[fields[i].name] = inputValues[i];
         }
+
         fetch('http://localhost:4000/admin/createcategory', {
             method: 'POST',
             body: JSON.stringify(newCategory),
@@ -83,7 +142,12 @@ export default function UsersTable() {
                     <Form fields = {fields} handleSubmit = {handleSubmit} handleCancel = {handleCancel}/>
                 )
             }
-            <Table data = {data} deleteButtonClick = { deleteButtonClick } />
+            {
+                isEdit && (
+                    <Form fields = {fields} handleSubmit = {handleEditSubmit} handleCancel = {handleEditCancel} values = {values}/>
+                )
+            }
+            <Table data = {data} deleteButtonClick = { deleteButtonClick } editButtonClick = {editButtonClick} />
         </>
     )
 }

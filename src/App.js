@@ -8,6 +8,7 @@ import Admin from './pages/Admin';
 import UsersTable from './pages/UsersTable';
 import CategoriesTabel from './pages/CategoriesTable';
 import ProductsTabel from './pages/ProductsTable';
+// import Categories1 from './pages/Categories1';
 
 function App() {
   
@@ -19,12 +20,13 @@ function App() {
         <Route path = "users" element = {<UsersTable />}/>
         <Route path = "categories" element = {<CategoriesTabel />}/>
         <Route path = "products" element = {<ProductsTabel />}/>
-        <Route path = "createcategory" element = {<UsersTable />}/>
+        {/* <Route path = "categories" element = {<Categories1 />}/> */}
+        {/* <Route path = "createcategory" element = {<UsersTable />}/>
         <Route path = "updatecategory" element = {<UsersTable />}/>
         <Route path = "deletecategory" element = {<UsersTable />}/>
         <Route path = "createproduct" element = {<UsersTable />}/>
         <Route path = "updateproduct" element = {<UsersTable />}/>
-        <Route path = "deleteproduct" element = {<UsersTable />}/>
+        <Route path = "deleteproduct" element = {<UsersTable />}/> */}
       </Route>
       <Route path = "*" element={<NotFound />}/>
     </Routes>

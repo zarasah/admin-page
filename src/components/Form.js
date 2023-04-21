@@ -1,14 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
 
-export default function Form({fields, handleSubmit, handleCancel}) {
+export default function Form({fields, handleSubmit, handleCancel, values}) {
     const [inputValues, setInputValues] = useState(Array(fields.length).fill(""));
 
+    useEffect(() => {
+        if (values !== undefined && values !== null) {
+            setInputValues(values);
+          } else {
+            setInputValues(Array(fields.length).fill(""))
+          }
+      }, [values, fields]);
+
     function handleInputChange(event, index) {
+        event.preventDefault();
         const newInputValues = [...inputValues];
         newInputValues[index] = event.target.value;
         setInputValues(newInputValues);
     }
+
     return (
         <form onSubmit={ (event) => handleSubmit(event, inputValues) }>
             {
@@ -19,14 +29,14 @@ export default function Form({fields, handleSubmit, handleCancel}) {
                             <div key = {uuidv4()}>
                                 <label>
                                     Category:
-                                    <select value={inputValues[index]} onChange={(event) => handleInputChange(event, index)}>
+                                    <select value = { inputValues[index] } onChange={(event) => handleInputChange(event, index)}>
                                         <option value="">Select an option</option>
                                         {
-                                          optionsArr.map(item => {
+                                        optionsArr.map(item => {
                                             return (
                                                 <option value={item.id} key = {uuidv4()}>{item.name}</option>
                                             )
-                                          })  
+                                        })  
                                         }
                                     </select>
                                 </label>
@@ -34,7 +44,7 @@ export default function Form({fields, handleSubmit, handleCancel}) {
                         )
                     } else {
                         return ( 
-                            <div key = {uuidv4()}>
+                            <div key = {item.name}>
                                 <label>
                                     {item.name}:
                                     <input
@@ -45,7 +55,7 @@ export default function Form({fields, handleSubmit, handleCancel}) {
                                     />
                                 </label>
                             </div>
-                            )
+                        )
                     }
                 })
             }
