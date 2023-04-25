@@ -1,7 +1,7 @@
 import './Table.css';
 import { v4 as uuidv4 } from 'uuid';
 
-export default function Table({data, deleteButtonClick, editButtonClick}) { 
+export default function Table({data, deleteButtonClick, editButtonClick, name}) { 
     const columns = Object.keys(data[0]);
     columns.push('Edit', 'Delete');
     const newData = [];
@@ -14,6 +14,7 @@ export default function Table({data, deleteButtonClick, editButtonClick}) {
     return (
         <div className = "table-wrapper">
             <table className='table'>
+                <caption>{name}</caption>
                 <thead>
                     <tr>
                         {

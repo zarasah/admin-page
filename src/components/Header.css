@@ -2,14 +2,15 @@
     display: flex;
     justify-content: space-between;
     font-size: 18px;
+    margin-bottom: 50px;
 }
 
 .header-left {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 20px;
-    margin-left: 10%;
+    gap: 50px;
+    margin-left: 2%;
 }
 
 .header-right {
@@ -29,7 +30,7 @@
     padding-right: 50px;
     display: flex;
     justify-content: space-between;
-    gap: 5%;
+    gap: 10%;
 }
 
 .navbar a {
@@ -51,15 +52,11 @@
 
 .header-right button {
     font-family: 'Merriweather', serif;
-    /* text-transform: uppercase; */
     outline: 0;
     background: rgb(245, 172, 107);
     width: 100%;
     border: 0;
     padding: 8px;
-    /* color: #FFFFFF; */
-    /* font-size: 16px; */
-    /* transition: all 0.3 ease; */
     cursor: pointer;
 }
 

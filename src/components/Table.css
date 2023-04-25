@@ -9,6 +9,13 @@
 	margin-bottom: 20px;
 }
 
+caption {
+    font-weight: bold;
+	padding: 5px;
+	background: rgb(245, 172, 107);
+	border: 1px solid #dddddd;
+}
+
 thead th:nth-child(1) {
     width: 5%;
 }
@@ -28,7 +35,6 @@ thead th:nth-last-child(-n+2) {
 .table td{
 	padding: 5px 10px;
 	border: 1px solid #eee;
-	/* text-align: left; */
     text-align: center;
 }
 

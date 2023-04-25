@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
+import "./Form.css";
 
-export default function Form({fields, handleSubmit, handleCancel, values}) {
+export default function Form({fields, handleSubmit, handleCancel, values, name}) {
     const [inputValues, setInputValues] = useState(Array(fields.length).fill(""));
 
     useEffect(() => {
@@ -20,48 +21,54 @@ export default function Form({fields, handleSubmit, handleCancel, values}) {
     }
 
     return (
-        <form onSubmit={ (event) => handleSubmit(event, inputValues) }>
-            {
-                fields.map((item, index) => {
-                    if (item.type === 'select') {
-                        const optionsArr = item.options;
-                        return (
-                            <div key = {uuidv4()}>
-                                <label>
-                                    Category:
-                                    <select value = { inputValues[index] } onChange={(event) => handleInputChange(event, index)}>
-                                        <option value="">Select an option</option>
-                                        {
-                                        optionsArr.map(item => {
-                                            return (
-                                                <option value={item.id} key = {uuidv4()}>{item.name}</option>
-                                            )
-                                        })  
-                                        }
-                                    </select>
-                                </label>
-                            </div>
-                        )
-                    } else {
-                        return ( 
-                            <div key = {item.name}>
-                                <label>
-                                    {item.name}:
-                                    <input
-                                        type = {item.type}
-                                        name = {item.name}
-                                        value = { inputValues[index] }
-                                        onChange = { (event) => handleInputChange(event, index) }
-                                    />
-                                </label>
-                            </div>
-                        )
+        <div className = "modal">
+            <div className = "modal-content">
+                <h4>{name}</h4>
+                <form onSubmit={ (event) => handleSubmit(event, inputValues) }>
+                    {
+                        fields.map((item, index) => {
+                            if (item.type === 'select') {
+                                const optionsArr = item.options;
+                                return (
+                                    <div className = "input-field" key = {uuidv4()}>
+                                        <label>
+                                            <span>category:</span>
+                                            <select value = { inputValues[index] } onChange={(event) => handleInputChange(event, index)}>
+                                                <option value="">Select an option</option>
+                                                {
+                                                    optionsArr.map(item => {
+                                                        return (
+                                                            <option value={item.id} key = {uuidv4()}>{item.name}</option>
+                                                        )
+                                                    })  
+                                                }
+                                            </select>
+                                        </label>
+                                    </div>
+                                )
+                            } else {
+                                return ( 
+                                    <div className = "input-field" key = {item.name}>
+                                        <label>
+                                            <span>{item.name}:</span>
+                                            <input
+                                                type = {item.type}
+                                                name = {item.name}
+                                                value = { inputValues[index] }
+                                                onChange = { (event) => handleInputChange(event, index) }
+                                            />
+                                        </label>
+                                    </div>
+                                )
+                            }
+                        })
                     }
-                })
-            }
-            <br />
-            <button type="submit">Save</button>
-            <button type="button" onClick = { handleCancel }>Cancel</button>
-        </form>
+                    <div className = "buttons">
+                        <button type="submit">Save</button>
+                        <button type="button" onClick = { handleCancel }>Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     )
 }

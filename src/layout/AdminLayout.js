@@ -15,8 +15,7 @@ export default function AdminLayout() {
                         <div className = "main">
                             <Outlet /> 
                         </div>
-                    </div>
-                    
+                    </div>                   
                 </>
             )
         }

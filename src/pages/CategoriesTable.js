@@ -38,7 +38,7 @@ export default function UsersTable() {
         let value = [];
        
         for (let i = 0; i < fields.length; i++) {
-            const index = fields[i].name
+            const index = fields[i].name;
             value.push(editData[index]);
         }
         setValues(value);
@@ -136,18 +136,18 @@ export default function UsersTable() {
     
     return (
         <>
-            <button onClick = { handleAddBtnClick }>Add new Category</button>
             {
                 showForm && (
-                    <Form fields = {fields} handleSubmit = {handleSubmit} handleCancel = {handleCancel}/>
+                    <Form fields = {fields} handleSubmit = {handleSubmit} handleCancel = {handleCancel} name = "New Category"/>
                 )
             }
             {
                 isEdit && (
-                    <Form fields = {fields} handleSubmit = {handleEditSubmit} handleCancel = {handleEditCancel} values = {values}/>
+                    <Form fields = {fields} handleSubmit = {handleEditSubmit} handleCancel = {handleEditCancel} values = {values} name = "Edit" />
                 )
             }
-            <Table data = {data} deleteButtonClick = { deleteButtonClick } editButtonClick = {editButtonClick} />
+            <Table data = {data} deleteButtonClick = { deleteButtonClick } editButtonClick = {editButtonClick} name = "Categories"/>
+            <button onClick = { handleAddBtnClick }>Add new Category</button>
         </>
     )
 }

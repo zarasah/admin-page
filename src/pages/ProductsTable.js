@@ -140,7 +140,7 @@ export default function UsersTable() {
         let value = [];
        
         for (let i = 0; i < fields.length; i++) {
-            const index = fields[i].name
+            const index = fields[i].name;
             value.push(editData[index]);
         }
         setValues(value);
@@ -176,18 +176,18 @@ export default function UsersTable() {
     
     return (
         <>
-            <button onClick = { handleAddBtnClick }>Add new Product</button>
             {
                 showForm && (
-                    <Form handleSubmit = {handleSubmit} handleCancel = {handleCancel} fields={fields}/>
+                    <Form handleSubmit = {handleSubmit} handleCancel = {handleCancel} fields={fields} name = "New Product"/>
                 )
             }
             {
                 isEdit && (
-                    <Form fields = {fields} handleSubmit = {handleEditSubmit} handleCancel = {handleEditCancel} values = {values}/>
+                    <Form fields = {fields} handleSubmit = {handleEditSubmit} handleCancel = {handleEditCancel} values = {values} name = "Edit"/>
                 )
             }
-            <Table data = {data} deleteButtonClick = {deleteButtonClick} editButtonClick = {editButtonClick} />
+            <Table data = {data} deleteButtonClick = {deleteButtonClick} editButtonClick = {editButtonClick} name = "Products" />
+            <button onClick = { handleAddBtnClick }>Add new Product</button>
         </>
         
     )

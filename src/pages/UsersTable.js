@@ -32,6 +32,6 @@ export default function UsersTable() {
     }, [])
     
     return (
-        <Table data = {data} deleteButtonClick = {deleteButtonClick} />
+        <Table data = {data} deleteButtonClick = {deleteButtonClick} name = "Users"/>
     )
 }
