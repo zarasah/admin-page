@@ -1,5 +1,6 @@
+import './Login.css';
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -41,12 +42,15 @@ export default function Login() {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input type = "email" placeholder = "Email Address*" onChange={(event) => setEmail(event.target.value)}  required />
-            <br />
-            <input type = "password" placeholder = "Password*" onChange={(event) => setPassword(event.target.value)}  required />
-            <br />
-            <button>Sign In</button>
-        </form>
+        <div className = "login-page">
+            <div className = "form">
+                <form className = "login-form" onSubmit={handleSubmit}>
+                    <input type = "email" placeholder = "Email Address*" onChange={(event) => setEmail(event.target.value)}  required />
+                    <input type = "password" placeholder = "Password*" onChange={(event) => setPassword(event.target.value)}  required />
+                    <button>Sign In</button>
+                    <p className = "message" >Not registered? <Link to = "/register">Create an account</Link></p>
+                </form>
+            </div>
+        </div>
     )
 }

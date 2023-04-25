@@ -100,24 +100,6 @@ export default function UsersTable() {
 
     function handleAddBtnClick() {
         setShowForm(true);
-        // fetch('http://localhost:4000/admin/categories', {
-        //     headers: {
-        //         "Authorization": JSON.parse(localStorage.user).jwt
-        //     }
-        // })
-        // .then(res => res.json())
-        // .then(result => {
-        //     const newOptions = result.map(item => {
-        //         const newItem = {
-        //             id: item.id, 
-        //             name: item.name
-        //         }
-        //         return newItem;
-        //     })
-        //     setOptions(newOptions);
-        //     setShowForm(true);
-        // })
-        // .catch(error => console.error(error))
     }
 
     function handleCancel() {
