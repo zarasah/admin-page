@@ -8,6 +8,7 @@ export default function UsersTable() {
     const [id, setId] = useState('');
     const [showForm, setShowForm] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
+    const [message, setMessage] = useState('');
 
     const fields = [
         {
@@ -61,6 +62,7 @@ export default function UsersTable() {
     }
 
     function handleCancel() {
+        setMessage('');
         setShowForm(false);
     }
 
@@ -122,13 +124,15 @@ export default function UsersTable() {
             }
         })
         .then(res => {
-            if (!res.ok) {
-                throw new Error('Network response was not ok');
+            if (res.status === 409) {
+                setMessage('Category already exists');
+                throw new Error('Category already exists');
             }
             return res.json();
         })
         .then(result => {
             setData([...data, result.data]);
+            setMessage('');
             setShowForm(false);
         })
         .catch(error => console.error(error))
@@ -138,7 +142,7 @@ export default function UsersTable() {
         <>
             {
                 showForm && (
-                    <Form fields = {fields} handleSubmit = {handleSubmit} handleCancel = {handleCancel} name = "New Category"/>
+                    <Form fields = {fields} handleSubmit = {handleSubmit} handleCancel = {handleCancel} name = "New Category" errorMessage = {message}/>
                 )
             }
             {

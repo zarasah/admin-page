@@ -5,6 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isError, setIsError] = useState(false);
     const navigate = useNavigate();
 
     function handleSubmit(event) {
@@ -27,7 +28,12 @@ export default function Login() {
                 'Content-type': 'application/json; charset=UTF-8',
             }
         })
-        .then(res => res.json())
+        .then(res => {
+            if (res.status === 401) {
+                setIsError(true);
+            }
+            return res.json();
+        })
         .then(res => {
             const user = JSON.stringify(res);
             localStorage.setItem('user', user);
@@ -38,7 +44,7 @@ export default function Login() {
                 navigate('/login');
             }
         })
-        .catch(error => console.log(error))
+        .catch(error => {console.log(error)})
     }
 
     return (
@@ -49,6 +55,7 @@ export default function Login() {
                     <input type = "password" placeholder = "Password*" onChange={(event) => setPassword(event.target.value)}  required />
                     <button>Sign In</button>
                     <p className = "message" >Not registered? <Link to = "/register">Create an account</Link></p>
+                    <p className = {isError ? "error-active" : "error"}>Invalid password or email</p>
                 </form>
             </div>
         </div>

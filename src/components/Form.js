@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import "./Form.css";
 
-export default function Form({fields, handleSubmit, handleCancel, values, name}) {
+export default function Form({fields, handleSubmit, handleCancel, values, name, errorMessage}) {
     const [inputValues, setInputValues] = useState(Array(fields.length).fill(""));
 
     useEffect(() => {
@@ -63,6 +63,7 @@ export default function Form({fields, handleSubmit, handleCancel, values, name})
                             }
                         })
                     }
+                    <p className={errorMessage ? "error-active" : "error"}>{errorMessage}</p>
                     <div className = "buttons">
                         <button type="submit">Save</button>
                         <button type="button" onClick = { handleCancel }>Cancel</button>

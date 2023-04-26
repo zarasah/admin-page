@@ -58,3 +58,12 @@
     color: rgb(245, 172, 107);
     text-decoration: none;
   }
+
+  .error {
+    display: none;
+  }
+
+  .error-active {
+    display: block;
+    color: red;
+  }
