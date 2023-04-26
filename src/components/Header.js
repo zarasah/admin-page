@@ -6,6 +6,7 @@ import logo from "../images/logo.jpg";
 
 export default function Header(props) {
     const navigate = useNavigate();
+    const userName = props.name;
 
     function handleClick() {
         localStorage.clear();
@@ -29,6 +30,7 @@ export default function Header(props) {
             <div className = "header-right">
                 {/* <Search search = {props.search}/> */}
                 {/* <Basket count = {props.count}/> */}
+                <p>Hi, {userName}</p>
                 <button onClick = { handleClick }>Log Out</button>
             </div>
         </div>

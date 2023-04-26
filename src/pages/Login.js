@@ -43,41 +43,14 @@ export default function Login() {
             
             if (res.role === 1) {
                 navigate('/admin');
+            } else if (res.role === 0){
+                navigate('/user');
             } else {
                 navigate('/login');
             }
         })
         .catch(error => {console.log(error)})
     }
-
-    //     fetch('http://localhost:4000/login', {
-    //         method: 'POST',
-    //         body: JSON.stringify(data),
-    //         headers: {
-    //             'Content-type': 'application/json; charset=UTF-8',
-    //         }
-    //     })
-    //     .then(res => {
-    //         if (res.status === 401) {
-    //             res.json().then((res) => {
-    //                 setMessage(res.message);
-    //             })
-    //             setIsError(true);
-    //         }
-    //         return res.json();
-    //     })
-    //     .then(res => {
-    //         const user = JSON.stringify(res);
-    //         localStorage.setItem('user', user);
-            
-    //         if (res.role === 1) {
-    //             navigate('/admin');
-    //         } else {
-    //             navigate('/login');
-    //         }
-    //     })
-    //     .catch(error => {console.log(error)})
-    // }
 
     return (
         <div className = "login-page">

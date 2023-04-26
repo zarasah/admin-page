@@ -5,10 +5,12 @@ import Register from './pages/Register';
 import NotFound from './pages/NotFound';
 // import AuthLayout from './layout/AuthLayout';
 import AdminLayout from './layout/AdminLayout';
+import UserLayout from './layout/UserLayout';
 import Admin from './pages/Admin';
 import UsersTable from './pages/UsersTable';
 import CategoriesTabel from './pages/CategoriesTable';
 import ProductsTabel from './pages/ProductsTable';
+import User from './pages/User';
 
 function App() {
   
@@ -22,6 +24,9 @@ function App() {
         <Route path = "users" element = {<UsersTable />}/>
         <Route path = "categories" element = {<CategoriesTabel />}/>
         <Route path = "products" element = {<ProductsTabel />}/>
+      </Route>
+      <Route path = "/user" element={<UserLayout />}>
+        <Route index element = {<User />}/>
       </Route>
       <Route path = "*" element={<NotFound />}/>
     </Routes>
