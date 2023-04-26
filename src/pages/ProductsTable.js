@@ -8,6 +8,7 @@ export default function UsersTable() {
     const [isEdit, setIsEdit] = useState(false);
     const [options, setOptions] = useState([]);
     const [values, setValues] = useState({});
+    const [message, setMessage] = useState('');
     const [id, setId] = useState('');
     const fields = [
         {
@@ -58,6 +59,7 @@ export default function UsersTable() {
     }, [])
 
     function handleEditCancel() {
+        setMessage('');
         setIsEdit(false);
     }
 
@@ -78,7 +80,10 @@ export default function UsersTable() {
             }
         })
         .then(res => {
-            if (!res.ok) {
+            if (res.status === 400 || res.status === 409) {
+                res.json().then((res) => {
+                    setMessage(res.message);
+                })
                 throw new Error('Network response was not ok');
             }
             return res.json();
@@ -92,6 +97,7 @@ export default function UsersTable() {
                 return item;
             })
             setData(updatedData);
+            setMessage('');
             setIsEdit(false);
         })
         .catch(error => console.error(error))
@@ -103,6 +109,7 @@ export default function UsersTable() {
     }
 
     function handleCancel() {
+        setMessage('');
         setShowForm(false);
     }
 
@@ -122,13 +129,17 @@ export default function UsersTable() {
             }
         })
         .then(res => {
-            if (!res.ok) {
-                throw new Error('Network response was not ok');
+            if (res.status === 409 || res.status === 400) {
+                res.json().then((res) => {
+                    setMessage(res.message);
+                })
+                throw new Error('Category already exists');
             }
-            return res.json()
+            return res.json();
         })
         .then(result => {
             setData([...data, result.data]);
+            setMessage('');
             setShowForm(false);
         })
         .catch(error => console.error(error))
@@ -178,12 +189,12 @@ export default function UsersTable() {
         <>
             {
                 showForm && (
-                    <Form handleSubmit = {handleSubmit} handleCancel = {handleCancel} fields={fields} name = "New Product"/>
+                    <Form handleSubmit = {handleSubmit} handleCancel = {handleCancel} fields={fields} name = "New Product" errorMessage = {message}/>
                 )
             }
             {
                 isEdit && (
-                    <Form fields = {fields} handleSubmit = {handleEditSubmit} handleCancel = {handleEditCancel} values = {values} name = "Edit"/>
+                    <Form fields = {fields} handleSubmit = {handleEditSubmit} handleCancel = {handleEditCancel} values = {values} name = "Edit" errorMessage = {message}/>
                 )
             }
             <Table data = {data} deleteButtonClick = {deleteButtonClick} editButtonClick = {editButtonClick} name = "Products" />

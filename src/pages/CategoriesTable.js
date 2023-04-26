@@ -129,8 +129,10 @@ export default function UsersTable() {
             }
         })
         .then(res => {
-            if (res.status === 409) {
-                setMessage('Category already exists');
+            if (res.status === 409 || res.status === 400) {
+                res.json().then((res) => {
+                    setMessage(res.message);
+                })
                 throw new Error('Category already exists');
             }
             return res.json();
