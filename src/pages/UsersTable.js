@@ -4,6 +4,10 @@ import Table from "../components/Table";
 export default function UsersTable() {
     const [data, setData] = useState([{}]);
 
+    function editButtonClick() {
+        
+    }
+    
     function deleteButtonClick(id) {
         fetch(`http://localhost:4000/admin/deleteuser?id=${id}`, {
             method: 'DELETE',
@@ -32,6 +36,6 @@ export default function UsersTable() {
     }, [])
     
     return (
-        <Table data = {data} deleteButtonClick = {deleteButtonClick} name = "Users"/>
+        <Table data = {data} deleteButtonClick = {deleteButtonClick} editButtonClick = {editButtonClick} name = "Users" />
     )
 }

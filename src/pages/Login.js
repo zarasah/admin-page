@@ -5,6 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
     const [isError, setIsError] = useState(false);
     const navigate = useNavigate();
 
@@ -12,7 +13,8 @@ export default function Login() {
         event.preventDefault();
         
         if (!email || !password) {
-            console.log('fields are required');
+            setMessage('All fields are required');
+            setIsError(true);
             return;
         }
 
@@ -30,6 +32,7 @@ export default function Login() {
         })
         .then(res => {
             if (res.status === 401) {
+                setMessage('Incorrect email or password');
                 setIsError(true);
             }
             return res.json();
@@ -47,6 +50,35 @@ export default function Login() {
         .catch(error => {console.log(error)})
     }
 
+    //     fetch('http://localhost:4000/login', {
+    //         method: 'POST',
+    //         body: JSON.stringify(data),
+    //         headers: {
+    //             'Content-type': 'application/json; charset=UTF-8',
+    //         }
+    //     })
+    //     .then(res => {
+    //         if (res.status === 401) {
+    //             res.json().then((res) => {
+    //                 setMessage(res.message);
+    //             })
+    //             setIsError(true);
+    //         }
+    //         return res.json();
+    //     })
+    //     .then(res => {
+    //         const user = JSON.stringify(res);
+    //         localStorage.setItem('user', user);
+            
+    //         if (res.role === 1) {
+    //             navigate('/admin');
+    //         } else {
+    //             navigate('/login');
+    //         }
+    //     })
+    //     .catch(error => {console.log(error)})
+    // }
+
     return (
         <div className = "login-page">
             <div className = "form">
@@ -55,7 +87,7 @@ export default function Login() {
                     <input type = "password" placeholder = "Password*" onChange={(event) => setPassword(event.target.value)}  required />
                     <button>Sign In</button>
                     <p className = "message" >Not registered? <Link to = "/register">Create an account</Link></p>
-                    <p className = {isError ? "error-active" : "error"}>Invalid password or email</p>
+                    <p className = {isError ? "error-active" : "error"}>{message}</p>
                 </form>
             </div>
         </div>

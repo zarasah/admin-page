@@ -2,6 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 // import Search from './Search';
 // import Basket from './Basket';
 import './Header.css';
+import logo from "../images/logo.jpg";
 
 export default function Header(props) {
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ export default function Header(props) {
         <div className = "header">
             <div className = "header-left">
                 <div className = "logo">
-                    <img src = "logo.jpg" alt = "logo" />
+                    <img src = {logo} alt = "logo"/>
                 </div>
                 <div className = "navbar">
                     <NavLink to = "/">Home</NavLink>

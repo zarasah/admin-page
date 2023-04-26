@@ -59,3 +59,7 @@ button:hover {
     padding: 30px;
     width: 40%;
   }
+
+  .registered {
+    font-size: 20px;
+  }
