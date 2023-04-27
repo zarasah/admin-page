@@ -37,7 +37,7 @@ export default function UsersTable() {
             options
         }
     ]
-
+    
     useEffect(() => {
         fetch('http://localhost:4000/admin/categories', {
             headers: {
@@ -89,10 +89,12 @@ export default function UsersTable() {
             return res.json();
         })
         .then(result => {
+            const updated = {...result.product};
+            updated.Category = result.product.Category.name;
             const oldData = [...data];
             const updatedData = oldData.map((item) => {
                 if (item.id === id) {
-                    return result.data;
+                    return updated;
                 }
                 return item;
             })
@@ -138,7 +140,13 @@ export default function UsersTable() {
             return res.json();
         })
         .then(result => {
-            setData([...data, result.data]);
+            const {createdAt, updatedAt, ...newData} = result.data;
+            const id =  result.data.categoryId;
+            const category = options.find(item => item.id === +id);
+            
+            newData.Category = category.name;
+            
+            setData([...data, newData]);
             setMessage('');
             setShowForm(false);
         })
@@ -181,7 +189,15 @@ export default function UsersTable() {
             }
         })
         .then(res => res.json())
-        .then(res => setData(res))
+        // .then(res => setData(res))
+        .then(res => {
+            
+            res.map(item => {
+                const newValue = item.Category.name;
+                return item.Category = newValue;
+            })
+            setData(res);
+        })
         .catch(error => console.log(error))
     }, [])
     
