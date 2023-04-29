@@ -4,6 +4,7 @@ import "./Form.css";
 
 export default function Form({fields, handleSubmit, handleCancel, values, name, errorMessage}) {
     const [inputValues, setInputValues] = useState(Array(fields.length).fill(""));
+    // const [valueFile, setValueFile] = useState('');
 
     useEffect(() => {
         if (values !== undefined && values !== null) {
@@ -16,7 +17,11 @@ export default function Form({fields, handleSubmit, handleCancel, values, name, 
     function handleInputChange(event, index) {
         event.preventDefault();
         const newInputValues = [...inputValues];
-        newInputValues[index] = event.target.value;
+        if (event.target.name === 'img') {
+            newInputValues[index] = event.target.files[0];
+        } else {
+            newInputValues[index] = event.target.value;
+        }
         setInputValues(newInputValues);
     }
 
@@ -24,7 +29,7 @@ export default function Form({fields, handleSubmit, handleCancel, values, name, 
         <div className = "modal">
             <div className = "modal-content">
                 <h4>{name}</h4>
-                <form onSubmit={ (event) => handleSubmit(event, inputValues) }>
+                <form onSubmit={ (event) => handleSubmit(event, inputValues) } encType = "multipart/form-data" id="formElem">
                     {
                         fields.map((item, index) => {
                             if (item.type === 'select') {
@@ -43,6 +48,20 @@ export default function Form({fields, handleSubmit, handleCancel, values, name, 
                                                     })  
                                                 }
                                             </select>
+                                        </label>
+                                    </div>
+                                )
+                            } else if (item.type === 'file') {
+                                return ( 
+                                    <div className = "input-field" key = {item.name}>
+                                        <label>
+                                            <span>{item.name}:</span>
+                                            <input
+                                                type = {item.type}
+                                                name = {item.name}
+                                                // value = { valueFile }
+                                                onChange = { (event) => handleInputChange(event, index) }
+                                            />
                                         </label>
                                     </div>
                                 )

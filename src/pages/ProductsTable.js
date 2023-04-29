@@ -29,7 +29,7 @@ export default function UsersTable() {
         },
         {
             name: 'img',
-            type: 'text'
+            type: 'file'
         },
         {
             name: 'categoryId',
@@ -117,17 +117,27 @@ export default function UsersTable() {
 
     function handleSubmit(event, inputValues) {
         event.preventDefault();
-        const newProduct = {}
+        // const newProduct = {}
+        // for (let i = 0; i < fields.length; i++) {
+        //     newProduct[fields[i].name] = inputValues[i];
+        // }
+
+        const formData = new FormData();
+        
         for (let i = 0; i < fields.length; i++) {
-            newProduct[fields[i].name] = inputValues[i];
+            formData.append(fields[i].name,  inputValues[i])
         }
 
+        // formData.append('name', "zara" )
+        // const {name} = formData
+        // console.log('formData', formData.get('name'))
+        // console.log(formData.get('img'))
         fetch('http://localhost:4000/admin/createproduct', {
             method: 'POST',
-            body: JSON.stringify(newProduct),
+            body: formData,  // JSON.stringify(newProduct),
             headers: {
                 'Authorization': JSON.parse(localStorage.user).jwt,
-                'Content-Type': 'application/json'
+                //'Content-Type': 'application/json'
             }
         })
         .then(res => {
