@@ -140,7 +140,7 @@ export default function UsersTable() {
         })
         .then(result => {
             const {createdAt, updatedAt, ...newData} = result.data;
-            const id =  result.data.categoryId;
+            const id = result.data.categoryId;
             const category = options.find(item => item.id === +id);
             
             newData.Category = category.name;

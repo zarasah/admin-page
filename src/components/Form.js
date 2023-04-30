@@ -16,8 +16,11 @@ export default function Form({fields, handleSubmit, handleCancel, values, name, 
     function handleInputChange(event, index) {
         event.preventDefault();
         const newInputValues = [...inputValues];
+
         if (event.target.name === 'img') {
-            newInputValues[index] = event.target.files[0];
+            if (event.target.files.length > 0) {
+                newInputValues[index] = event.target.files[0];
+            } 
         } else {
             newInputValues[index] = event.target.value;
         }
