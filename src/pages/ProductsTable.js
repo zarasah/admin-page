@@ -58,26 +58,6 @@ export default function UsersTable() {
         .catch(error => console.error(error))
     }, [])
 
-    // useEffect(() => {
-    //     fetch('http://localhost:4000/admin/images', {
-    //         headers: {
-    //             "Authorization": JSON.parse(localStorage.user).jwt
-    //         }
-    //     })
-    //     .then(res => res.json())
-    //     .then(result => {
-    //         const newOptions = result.map(item => {
-    //             const newItem = {
-    //                 id: item.id, 
-    //                 name: item.name
-    //             }
-    //             return newItem;
-    //         })
-    //         setOptions(newOptions);
-    //     })
-    //     .catch(error => console.error(error))
-    // }, [])
-
     function handleEditCancel() {
         setMessage('');
         setIsEdit(false);
@@ -85,18 +65,17 @@ export default function UsersTable() {
 
     function handleEditSubmit(event, inputValues) {
         event.preventDefault();
-        const updateProduct = {};
-
+        const formData = new FormData();
+        
         for (let i = 0; i < fields.length; i++) {
-            updateProduct[fields[i].name] = inputValues[i];
+            formData.append(fields[i].name,  inputValues[i])
         }
 
         fetch(`http://localhost:4000/admin/updateproduct/?id=${id}`, {
             method: 'PUT',
-            body: JSON.stringify(updateProduct),
+            body: formData,
             headers: {
                 'Authorization': JSON.parse(localStorage.user).jwt,
-                'Content-Type': 'application/json'
             }
         })
         .then(res => {
@@ -137,27 +116,17 @@ export default function UsersTable() {
 
     function handleSubmit(event, inputValues) {
         event.preventDefault();
-        // const newProduct = {}
-        // for (let i = 0; i < fields.length; i++) {
-        //     newProduct[fields[i].name] = inputValues[i];
-        // }
-
         const formData = new FormData();
         
         for (let i = 0; i < fields.length; i++) {
             formData.append(fields[i].name,  inputValues[i])
         }
 
-        // formData.append('name', "zara" )
-        // const {name} = formData
-        // console.log('formData', formData.get('name'))
-        // console.log(formData.get('img'))
         fetch('http://localhost:4000/admin/createproduct', {
             method: 'POST',
-            body: formData,  // JSON.stringify(newProduct),
+            body: formData,
             headers: {
                 'Authorization': JSON.parse(localStorage.user).jwt,
-                //'Content-Type': 'application/json'
             }
         })
         .then(res => {
@@ -219,7 +188,6 @@ export default function UsersTable() {
             }
         })
         .then(res => res.json())
-        // .then(res => setData(res))
         .then(res => {
             
             res.map(item => {

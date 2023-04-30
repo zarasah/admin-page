@@ -45,7 +45,6 @@ export default function Register() {
         .catch(error => {console.log(error)})
     }
     
-
     return (
         <div className="login-page">
             <div className="form">

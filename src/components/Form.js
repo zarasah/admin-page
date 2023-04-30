@@ -4,7 +4,6 @@ import "./Form.css";
 
 export default function Form({fields, handleSubmit, handleCancel, values, name, errorMessage}) {
     const [inputValues, setInputValues] = useState(Array(fields.length).fill(""));
-    // const [valueFile, setValueFile] = useState('');
 
     useEffect(() => {
         if (values !== undefined && values !== null) {
