@@ -31,7 +31,8 @@ export default function Table({data, deleteButtonClick, editButtonClick, name}) 
                             return( <tr key = {uuidv4()}>
                                 {
                                     element.map((item) => {
-                                        const urlRegex = new RegExp("((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+\\$,\\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=+\\$,\\w]+@)[A-Za-z0-9.-]+)((?:/[\\+~%\\/\\w-_]*)?\\??(?:[-+=&;%@.\\w_]*)#?(?:[\\w]*))?)")
+                                        // eslint-disable-next-line no-useless-escape
+                                        const urlRegex = new RegExp('(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})');
                                         if (urlRegex.test(item)) {
                                             const fileName = item.substring(item.lastIndexOf('/') + 1);
                                             const nameWithoutExt = fileName.split('.')[0];
