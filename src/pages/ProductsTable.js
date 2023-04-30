@@ -58,6 +58,26 @@ export default function UsersTable() {
         .catch(error => console.error(error))
     }, [])
 
+    // useEffect(() => {
+    //     fetch('http://localhost:4000/admin/images', {
+    //         headers: {
+    //             "Authorization": JSON.parse(localStorage.user).jwt
+    //         }
+    //     })
+    //     .then(res => res.json())
+    //     .then(result => {
+    //         const newOptions = result.map(item => {
+    //             const newItem = {
+    //                 id: item.id, 
+    //                 name: item.name
+    //             }
+    //             return newItem;
+    //         })
+    //         setOptions(newOptions);
+    //     })
+    //     .catch(error => console.error(error))
+    // }, [])
+
     function handleEditCancel() {
         setMessage('');
         setIsEdit(false);

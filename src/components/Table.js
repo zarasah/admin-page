@@ -31,7 +31,14 @@ export default function Table({data, deleteButtonClick, editButtonClick, name}) 
                             return( <tr key = {uuidv4()}>
                                 {
                                     element.map((item) => {
-                                        return <td key = {uuidv4()}>{item}</td>
+                                        const urlRegex = new RegExp("((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=+\\$,\\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=+\\$,\\w]+@)[A-Za-z0-9.-]+)((?:/[\\+~%\\/\\w-_]*)?\\??(?:[-+=&;%@.\\w_]*)#?(?:[\\w]*))?)")
+                                        if (urlRegex.test(item)) {
+                                            const fileName = item.substring(item.lastIndexOf('/') + 1);
+                                            const nameWithoutExt = fileName.split('.')[0];
+                                            return <td key = {uuidv4()}><img src={item} alt={nameWithoutExt}/></td>
+                                        } else {
+                                            return <td key = {uuidv4()}>{item}</td>
+                                        }
                                     })    
                                 }
                                 <td onClick={() => editButtonClick(id)}>&#9998;</td>

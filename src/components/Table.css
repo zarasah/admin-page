@@ -52,3 +52,8 @@ thead th:nth-last-child(-n+2) {
 .table tbody tr:nth-child(even){
 	background:  rgb(252, 239, 227);;
 }
+
+img {
+	width: 100px;
+	height: 150px;
+}
