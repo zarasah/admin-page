@@ -189,7 +189,6 @@ export default function UsersTable() {
         })
         .then(res => res.json())
         .then(res => {
-            
             res.map(item => {
                 const newValue = item.Category.name;
                 return item.Category = newValue;

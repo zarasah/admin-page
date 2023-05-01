@@ -1,8 +1,11 @@
 import './Table.css';
 import { v4 as uuidv4 } from 'uuid';
 
-export default function Table({data, deleteButtonClick, editButtonClick, name}) { 
-    const columns = Object.keys(data[0]);
+export default function Table({data, deleteButtonClick, editButtonClick, name}) {
+    let columns = [];
+    if (data.length !== 0) {
+        columns = Object.keys(data[0]);
+    }
     columns.push('Edit', 'Delete');
     const newData = [];
 
